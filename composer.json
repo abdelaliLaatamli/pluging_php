@@ -1,0 +1,15 @@
+{
+    "name": "vagrant/php_pipline",
+    "autoload": {
+        "psr-4": {
+            "Pipline\\" : "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdelali Laatamli",
+            "email": "alaatamli@presenceinteractive.com"
+        }
+    ],
+    "require": {}
+}
