@@ -11,14 +11,14 @@ class Store implements IStore {
 
     private $data = [];
 
-    public function __construct($data= null)
+    public function __construct(array $data= null)
     {
         if( $data != null ){
             $this->data = $data;
         }
     }
     
-    public function loadData( $data = null ):IProsses
+    public function loadData(array $data = null ):IProsses
     {
     
         if( $data != null ){
