@@ -2,7 +2,8 @@
     "name": "vagrant/php_pipline",
     "autoload": {
         "psr-4": {
-            "Pipline\\" : "src"
+            "Pipline\\" : "src",
+            "Core\\Pluging\\Loader\\" : "plugin_core"
         }
     },
     "authors": [

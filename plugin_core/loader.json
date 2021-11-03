@@ -1,0 +1,6 @@
+{
+    "plugins" : [
+        { "type" : "store" , "name" : "jsonloader" , "namespace" : "Plugins\\Jsonloader\\" },
+        { "type" : "store" , "name" : "jsonloaderss" , "namespace" : "Plugins\\Jsonloader\\" }
+    ]
+}
