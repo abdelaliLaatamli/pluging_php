@@ -9,13 +9,15 @@ class Loader {
 
     private $rootPath ;
 
+    public static $loadedPluging = [];
+
     public function __construct( $rootPath = __DIR__ )
     { 
         $this->rootPath = $rootPath ;
     }
 
 
-    public function pluginsLoader(){
+    public function pluginsLoader(): void {
 
         $pluginsFile = $this->filePluginManager();
 
@@ -23,7 +25,8 @@ class Loader {
             throw new Exception("Loader File must respect plugins form");
         }
 
-        return $this->loadPlugins( $pluginsFile["plugins"] ) ;
+        $this->loadPlugins( $pluginsFile["plugins"] ) ;
+        
 
     }
 
@@ -31,16 +34,19 @@ class Loader {
     private function loadPlugins( $listPlugins ){
 
         foreach( $listPlugins as $pluging ){
+
             $plugingPath = $this->rootPath."/plugins/".$pluging['name'];
+            
             if (!file_exists( $plugingPath )) {
                 Throw new Exception("Pluging {$pluging['name']} Implementation Not Exist");  
             } 
 
             $this->loadPlugin( $plugingPath  , $pluging["namespace"] );
+
+            static::$loadedPluging[$pluging["name"]] = $pluging;
+
         }
 
-
-        return [ $listPlugins , $this->rootPath ]  ;
     }
 
     private function loadPlugin( $namespace , $plugingPath ){
