@@ -3,17 +3,27 @@
 namespace Pipline\Models;
 
 use Pipline\Interfaces\IConsume;
+use Pipline\Interfaces\IDataSet;
 use Pipline\Interfaces\IProsses;
 
-class Prosses implements IProsses {
+class Prosses implements IProsses , IDataSet {
 
     private $data ;
 
     private $operations = [];
 
-    public function __construct( $data )
+    private $consumer ;
+
+    public function __construct( IConsume $consumer )
     {
-        $this->data = $data ;
+        $this->consumer = $consumer;
+    }
+
+    public function setData( $data ): IDataSet {
+
+        $this->data = $data;
+        
+        return $this;
     }
 
     
@@ -39,9 +49,9 @@ class Prosses implements IProsses {
 
         $data = $this->exceuteProsses();
 
-        $consumer = new Consumer( $data );
+        $this->consumer->setData( $data );
 
-        return $consumer;
+        return $this->consumer;
     }
 
     private function exceuteProsses(): array {

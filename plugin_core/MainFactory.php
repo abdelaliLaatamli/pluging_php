@@ -25,14 +25,14 @@ class MainFactory {
 
 
         $consumer = $this->consumerFactory->makeObject( $consumerParam );
-        // $prosses  = $this->prossesFactory->makeObject( $prossesParam );
-        // $store    = $this->storeFactory->makeObject( $storeParam );
+        $prosses  = $this->prossesFactory->makeObject( $prossesParam , $consumer );
+        $store    = $this->storeFactory->makeObject( $storeParam , $prosses);
 
         
-        
+
         
        
-        return $consumer ;
+        return [ $consumer , $prosses , $store ] ;
 
     }
 

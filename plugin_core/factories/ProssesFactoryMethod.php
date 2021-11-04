@@ -2,27 +2,30 @@
 
 namespace Core\Pluging\Loader\Factories;
 
+use Exception;
+use Pipline\Interfaces\IConsume;
+
 class ProssesFactoryMethod extends AbstractFactoryMethod {
 
 
-function makeObject( string $param ) {
+    function makeObject( string $param , IConsume $consumer = null ) {
 
-    $prosses = null; 
+        $prossesRegistredPluging = $this->filtreRegisterPlugins("prosses") ;
 
-    // switch ( $param ) {
+        if( array_key_exists( $param , $prossesRegistredPluging ) )
+        {   
+            if( !isset($prossesRegistredPluging[$param]["classloader"]) ){
+                throw new Exception("No Data enaght to instance this class");
+            }
+            // instancat object 
+            return new $prossesRegistredPluging[$param]["classloader"]( $consumer);
+        }
 
-    //     // case "us":
-    //     //     // $book = new OReillyPHPBook;
-    //     // break;
-    //     // case "other":
-    //     //     // $book = new SamsPHPBook;
-    //     // break;
-    //     // default:
-    //     //     // $book = new OReillyPHPBook;
-    //     // break; 
+        if( $param === "default" ){
+            return new \Pipline\Models\Prosses( $consumer ); 
+        }
 
-    // } 
-
-    return $prosses;
-}
+        throw new Exception( $param . " Have No Class");
+    }
+    
 }

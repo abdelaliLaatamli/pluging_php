@@ -2,33 +2,28 @@
 
 namespace Core\Pluging\Loader\Factories;
 
-use Core\Pluging\Loader\Loader;
+use Exception;
 
 class ConsumeFactoryMethod extends AbstractFactoryMethod {
 
 
-function makeObject( string $param ) {
+    function makeObject( string $param ) {
 
-   
+        $consumeRegistredPluging = $this->filtreRegisterPlugins("consumer") ;
 
-    $consumeRegistredPluging = $this->filtreRegisterPlugins() ;
-    return  $consumeRegistredPluging ;
-    $consumer = null; 
+        if( array_key_exists( $param , $consumeRegistredPluging ) )
+        {   
+            if( !isset($consumeRegistredPluging[$param]["classloader"]) ){
+                throw new Exception("No Data enaght to instance this class");
+            }
+            // instancat object 
+            return new $consumeRegistredPluging[$param]["classloader"]();
+        }
 
-    // switch ( $param ) {
+        if( $param === "default" ){
+            return new \Pipline\Models\Consumer([]); 
+        }
 
-    //     // case "us":
-    //     //     // $book = new OReillyPHPBook;
-    //     // break;
-    //     // case "other":
-    //     //     // $book = new SamsPHPBook;
-    //     // break;
-    //     // default:
-    //     //     // $book = new OReillyPHPBook;
-    //     // break; 
-
-    // } 
-    return Loader::$loadedPluging;
-    return $consumer;
-}
+        throw new Exception( $param . " Have No Class");
+    }
 }

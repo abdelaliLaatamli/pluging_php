@@ -1,5 +1,6 @@
 {
     "plugins" : [
-        { "type" : "store" , "name" : "jsonloader" , "namespace" : "Plugins\\Jsonloader\\" }
+        { "type" : "store"    , "name" : "jsonloader"   , "namespace" : "Plugins\\Jsonloader\\" , "classloader" : "Plugins\\Jsonloader\\JsonStore"  },
+        { "type" : "consumer" , "name" : "jsonconsumer" , "namespace" : "Plugins\\Jsonconsumer\\" , "classloader" : "Plugins\\Jsonconsumer\\JsonConsumer"  }
     ]
 }

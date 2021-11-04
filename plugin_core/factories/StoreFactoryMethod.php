@@ -2,28 +2,31 @@
 
 namespace Core\Pluging\Loader\Factories;
 
+use Exception;
+use Pipline\Interfaces\IProsses;
 
 class StoreFactoryMethod extends AbstractFactoryMethod {
 
 
-    function makeObject( string $param ) {
+    function makeObject( string $param , IProsses $prosses = null ) {
 
-        $store = null; 
 
-        // switch ( $param ) {
+        $storeRegistredPluging = $this->filtreRegisterPlugins("store") ;
 
-        //     // case "us":
-        //     //     // $book = new OReillyPHPBook;
-        //     // break;
-        //     // case "other":
-        //     //     // $book = new SamsPHPBook;
-        //     // break;
-        //     // default:
-        //     //     // $book = new OReillyPHPBook;
-        //     // break; 
+        if( array_key_exists( $param , $storeRegistredPluging ) )
+        {   
+            if( !isset($storeRegistredPluging[$param]["classloader"]) ){
+                throw new Exception("No Data enaght to instance this class");
+            }
+            // instancat object 
+            return new $storeRegistredPluging[$param]["classloader"]( $prosses );
+        }
 
-        // } 
+        if( $param === "default" ){
+            return new \Pipline\Models\Store( $prosses ); 
+        }
 
-        return $store;
+        throw new Exception( $param . " Have No Class");
+    
     }
 }

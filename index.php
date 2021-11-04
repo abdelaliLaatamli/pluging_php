@@ -37,6 +37,8 @@ use  Core\Pluging\Loader\MainFactory;
 $f = new MainFactory();
 
 
-$oo = $f->makeObjects( "jsonloader" , "default" , "default" ) ;
-// var_dump( $oo );
-echo json_encode( $oo );
+// $oo = $f->makeObjects( "jsonloader" , "default" , "default" ) ;
+$oo = $f->makeObjects( "jsonloader" , "default" , "jsonconsumer" ) ;
+
+var_dump( $oo );
+// echo json_encode( $oo );

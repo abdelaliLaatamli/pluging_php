@@ -3,30 +3,39 @@
 
 namespace Pipline\Models;
 
+use Pipline\Interfaces\IDataSet;
 use Pipline\Interfaces\IProsses;
 use Pipline\Interfaces\IStore;
-use Pipline\Models\Prosses;
 
-class Store implements IStore {
+class Store implements IStore , IDataSet {
 
     private $data = [];
 
-    public function __construct(array $data= null)
+    private $prosses ;
+
+    public function __construct( IProsses|IDataSet $prosses )
     {
-        if( $data != null ){
-            $this->data = $data;
-        }
+        $this->prosses = $prosses ;
+    }
+
+
+
+    public function setData( $data ): IDataSet {
+
+        $this->data = $data;
+        
+        return $this;
     }
     
-    public function loadData(array $data = null ):IProsses
+    public function loadData():IProsses
     {
-    
-        if( $data != null ){
-            $this->data = $data;
-        }
 
-        $prosses = new Prosses( $this->data );
-        return $prosses;
+        // load data
+
+        $this->prosses->setData( $this->data );
+
+
+        return $this->prosses;
     }
 
 }
