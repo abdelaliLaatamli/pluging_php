@@ -32,7 +32,8 @@ class MainFactory {
 
         
        
-        return [ $consumer , $prosses , $store ] ;
+        // return [ $consumer , $prosses , $store ] ;
+        return $store ;
 
     }
 

@@ -4,16 +4,16 @@
 namespace Pipline\Models;
 
 use Pipline\Interfaces\IDataSet;
-use Pipline\Interfaces\IProsses;
-use Pipline\Interfaces\IStore;
+// use Pipline\Interfaces\IProsses;
+// use Pipline\Interfaces\IStore;
 
-class Store implements IStore , IDataSet {
+class Store implements IDataSet {
 
     private $data = [];
 
     private $prosses ;
 
-    public function __construct( IProsses|IDataSet $prosses )
+    public function __construct( IDataSet $prosses )
     {
         $this->prosses = $prosses ;
     }
@@ -23,19 +23,13 @@ class Store implements IStore , IDataSet {
     public function setData( $data ): IDataSet {
 
         $this->data = $data;
-        
-        return $this;
-    }
-    
-    public function loadData():IProsses
-    {
-
-        // load data
 
         $this->prosses->setData( $this->data );
 
-
         return $this->prosses;
+        
     }
+
+
 
 }

@@ -34,11 +34,20 @@ $loader->pluginsLoader();
 
 use  Core\Pluging\Loader\MainFactory;
 
-$f = new MainFactory();
+$factory = new MainFactory();
 
 
-// $oo = $f->makeObjects( "jsonloader" , "default" , "default" ) ;
-$oo = $f->makeObjects( "jsonloader" , "default" , "jsonconsumer" ) ;
+// $store = $factory->makeObjects( "jsonloader" , "default" , "default" ) ;
+$store = $factory->makeObjects( "default" , "default" , "jsonconsumer" ) ;
 
-var_dump( $oo );
-// echo json_encode( $oo );
+$data = $store
+    ->setData(["aaa" , "bbb" , "ccc" , "adbs" , "abcds" , "ananas" , "ops", "ddddd"])
+    ->convert( function ( $item ) { return $item . " test" ; } )
+    ->clean( function ( $item ) { return substr( $item , 0, 1 ) === "a" ;} )
+    ->analyze( function ( $data ) { return array_slice($data, 0 , 3); } )
+    ->prosses()
+    ->consume();
+
+// var_dump( $data );
+// echo json_encode( $data );
+echo $data ;

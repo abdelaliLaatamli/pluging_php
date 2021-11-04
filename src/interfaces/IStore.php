@@ -5,6 +5,6 @@ namespace Pipline\Interfaces ;
 
 interface IStore {
 
-    public function loadData( mixed $data ): IProsses;
+    public function loadData( ): IProsses;
 
 }
