@@ -10,12 +10,14 @@ class PluginUploader {
     private $file ;
     private $upload_dir;
     private $plugins_dir;
+    private $pluginCoreDir;
 
-    public function __construct( $file , $upload_dir , $plugins_dir )
+    public function __construct( $file , $upload_dir , $plugins_dir , $pluginCoreDir )
     {
-        $this->file        = $file ;
-        $this->upload_dir  = $upload_dir ;
-        $this->plugins_dir = $plugins_dir ;
+        $this->file          = $file ;
+        $this->upload_dir    = $upload_dir ;
+        $this->plugins_dir   = $plugins_dir ;
+        $this->pluginCoreDir = $pluginCoreDir ;
     }
 
     public function moveUpload(  ){
@@ -23,14 +25,15 @@ class PluginUploader {
 
         $extPath = $this->fileChecker();
         $this->validatePlugin( $extPath );
-        $extPath__ = explode("/",$extPath) ;
-        $plugins_dir = $this->plugins_dir . $extPath__[count($extPath__)-1]; 
-        // shell_exec("mv $extPath path_to_destination");
+        $plugins_dir = $this->moveToPlugins($extPath);
+        
+        $file_info = $this->getInfoFile( $plugins_dir );
 
+        $this->addToPluginManagerFile( $file_info );
 
-        echo "bbb" . $extPath ."\n\n $plugins_dir"; 
-          
-      
+        // print_r( $file_info );
+
+        return $plugins_dir ;
     }
 
 
@@ -69,13 +72,13 @@ class PluginUploader {
             throw new \Exception( "Sorry, there was an error uploading your file." );
         }
         
-        // echo $target_file ;
         $zip=new ZipArchive;
 
         $zipFile=$zip->open( $target_file );
-            
-        if ($zipFile === TRUE){
-            throw new \Exception( "Echec de l'extraction du fichier ");
+
+
+        if ($zipFile !== true){
+            throw new \Exception( "Echec de l'extraction du fichier {$zipFile}");
         }
             
         $zip->extractTo( $this->upload_dir  );
@@ -83,15 +86,33 @@ class PluginUploader {
 
         $extPath = $this->upload_dir . explode(".",  $basename)[0] ;
 
-        if( file_exists( $extPath  ) ){
+        if( !file_exists( $extPath  ) ){
             throw new \Exception( "File not found ");
         }
         return $extPath;
 
     }
 
-    private function moveToPlugins() {
+    private function moveToPlugins($extPath) {
 
+        $extPath__ = explode("/",$extPath) ;
+        $plugins_dir = $this->plugins_dir . $extPath__[count($extPath__)-1]; 
+        shell_exec("mv $extPath $plugins_dir");
+        return $plugins_dir;
+
+    }
+
+    private function addToPluginManagerFile( $infoPlugin ){
+
+        $pluginManager = file_get_contents(  $this->pluginCoreDir."/loader.json" );
+        $decoded       = json_decode( $pluginManager , true );
+
+        $decoded["plugins"][] = $infoPlugin ;
+
+        file_put_contents( 
+            $this->pluginCoreDir."/loader.json" ,
+            json_encode(  $decoded , true)
+        ); 
     }
 
 

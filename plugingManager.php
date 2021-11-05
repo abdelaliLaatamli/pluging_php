@@ -11,7 +11,12 @@ use Core\Pluging\Loader\PluginUploader;
 
         // var_dump( [ $_POST , $_FILES ] );
 
-        $pluginUploader = new PluginUploader( $_FILES["plugin"] , __DIR__."/uploads/" , __DIR__."/plugins/" );
+        $pluginUploader = new PluginUploader( 
+            $_FILES["plugin"] ,
+            __DIR__."/uploads/" ,
+            __DIR__."/plugins/" , 
+            __DIR__."/plugin_core" 
+        );
 
         // $target_dir = __DIR__."/uploads/";
 
