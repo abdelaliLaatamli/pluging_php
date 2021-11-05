@@ -17,9 +17,21 @@
         <div class="row">
             <div class="col-md-6 offset-3 mt-4">
                     <!-- Plungs table -->
-                <form action="">
-                    <div class="mb-3">
-                        <input class="form-control form-control-sm" type="file" id="formFile" >
+                <form action="plugingManager.php" method="post" enctype="multipart/form-data" >
+
+                    <div class="row">
+
+                        <input type="hidden" name="isFile" value="test">
+
+                        <div class="col-10 mb-3">
+                            <input class="form-control form-control-sm" name="plugin" type="file" id="formFile" 
+                            accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" >
+                        </div>
+
+                        <div class="col-2" >
+                            <button class="btn btn-primary btn-sm float-end" type="submit">upload</button>
+                        </div>
+
                     </div>
                 </form>
             </div>

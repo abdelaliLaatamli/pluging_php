@@ -1,5 +1,32 @@
 <?php 
 
+
+
+require 'vendor/autoload.php';
+
+use Core\Pluging\Loader\PluginUploader;
+
+
+    if( isset( $_POST["isFile"] ) && !empty($_POST["isFile"]) ){
+
+        // var_dump( [ $_POST , $_FILES ] );
+
+        $pluginUploader = new PluginUploader( $_FILES["plugin"] , __DIR__."/uploads/" , __DIR__."/plugins/" );
+
+        // $target_dir = __DIR__."/uploads/";
+
+        if( isset($_FILES["plugin"]) && !empty($_FILES["plugin"]) ) {
+
+
+            // TODO: File Validation
+            $pluginUploader->moveUpload() ;
+
+        }
+
+
+        die();
+    }
+
     if( isset( $_POST['operation'] ) && !empty( $_POST['operation'] ) ){
 
         header('Content-Type: application/json');
