@@ -1,1 +1,19 @@
-{"plugins":[{"type":"store","name":"jsonloader","namespace":"Plugins\\Jsonloader\\","classloader":"Plugins\\Jsonloader\\JsonStore","status":"enable"},{"type":"consumer","name":"jsonconsumer","namespace":"Plugins\\Jsonconsumer\\","classloader":"Plugins\\Jsonconsumer\\JsonConsumer","descriptions":"aaaaa"}]}
+{
+  "plugins": [
+    {
+      "type": "store",
+      "name": "jsonloader",
+      "namespace": "Plugins\\Jsonloader\\",
+      "classloader": "Plugins\\Jsonloader\\JsonStore",
+      "status": "enable"
+    },
+    {
+      "type": "consumer",
+      "name": "jsonconsumer",
+      "namespace": "Plugins\\Jsonconsumer\\",
+      "classloader": "Plugins\\Jsonconsumer\\JsonConsumer",
+      "descriptions": "aaaaa",
+      "status": "enable"
+    }
+  ]
+}

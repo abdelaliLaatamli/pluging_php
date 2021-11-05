@@ -55,9 +55,9 @@ class PluginUploader {
     }
 
     private function getInfoFile( $extPath ) {
-        $infoFile   = file_get_contents( $extPath."/info.json" );
-
-        $decoded_file = json_decode( $infoFile , true);
+        $infoFile               = file_get_contents( $extPath."/info.json" );
+        $decoded_file           = json_decode( $infoFile , true);
+        $decoded_file["status"] = "enable";
         return $decoded_file ;
     }
 

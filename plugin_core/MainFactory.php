@@ -28,11 +28,6 @@ class MainFactory {
         $prosses  = $this->prossesFactory->makeObject( $prossesParam , $consumer );
         $store    = $this->storeFactory->makeObject( $storeParam , $prosses);
 
-        
-
-        
-       
-        // return [ $consumer , $prosses , $store ] ;
         return $store ;
 
     }
