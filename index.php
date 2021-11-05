@@ -36,17 +36,28 @@ use  Core\Pluging\Loader\MainFactory;
 
 $factory = new MainFactory();
 
+$path = __DIR__."/tests.json";
 
-// $store = $factory->makeObjects( "jsonloader" , "default" , "default" ) ;
-$store = $factory->makeObjects( "default" , "default" , "jsonconsumer" ) ;
-
+$store = $factory->makeObjects( "jsonloader" , "default" , "jsonconsumer" ) ;
 $data = $store
-    ->setData(["aaa" , "bbb" , "ccc" , "adbs" , "abcds" , "ananas" , "ops", "ddddd"])
+    ->setData($path)
     ->convert( function ( $item ) { return $item . " test" ; } )
     ->clean( function ( $item ) { return substr( $item , 0, 1 ) === "a" ;} )
     ->analyze( function ( $data ) { return array_slice($data, 0 , 3); } )
     ->prosses()
     ->consume();
+
+
+
+// $store = $factory->makeObjects( "default" , "default" , "jsonconsumer" ) ;
+
+// $data = $store
+//     ->setData(["aaa" , "bbb" , "ccc" , "adbs" , "abcds" , "ananas" , "ops", "ddddd"])
+//     ->convert( function ( $item ) { return $item . " test" ; } )
+//     ->clean( function ( $item ) { return substr( $item , 0, 1 ) === "a" ;} )
+//     ->analyze( function ( $data ) { return array_slice($data, 0 , 3); } )
+//     ->prosses()
+//     ->consume();
 
 // var_dump( $data );
 // echo json_encode( $data );

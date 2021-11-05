@@ -3,9 +3,8 @@
 
 namespace Plugins\Jsonloader;
 
+use Exception;
 use Pipline\Interfaces\IDataSet;
-use Pipline\Interfaces\IProsses;
-use Pipline\Interfaces\IStore;
 
 class JsonStore implements IDataSet  {
     
@@ -20,6 +19,10 @@ class JsonStore implements IDataSet  {
 
     
     public function setData( $jsonfile ): IDataSet {
+
+        if( !file_exists($jsonfile) ){
+            throw new Exception("json file [$jsonfile] not found");
+        }
 
         if( $jsonfile != null ){
             $this->data = json_decode( file_get_contents( $jsonfile ) , false );

@@ -1,0 +1,6 @@
+{
+  "type": "consumer",
+  "name": "jsonconsumer",
+  "namespace": "Plugins\\Jsonconsumer\\",
+  "classloader": "Plugins\\Jsonconsumer\\JsonConsumer"
+}

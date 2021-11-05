@@ -13,17 +13,17 @@ class ConsumeFactoryMethod extends AbstractFactoryMethod {
 
         if( array_key_exists( $param , $consumeRegistredPluging ) )
         {   
-            if( !isset($consumeRegistredPluging[$param]["classloader"]) ){
-                throw new Exception("No Data enaght to instance this class");
+            if(!isset($consumeRegistredPluging[$param]["classloader"])){
+                throw new Exception("No Data enough to instance the class.");
             }
             // instancat object 
             return new $consumeRegistredPluging[$param]["classloader"]();
         }
 
         if( $param === "default" ){
-            return new \Pipline\Models\Consumer([]); 
+            return new \Pipline\Models\Consumer(); 
         }
 
-        throw new Exception( $param . " Have No Class");
+        throw new Exception( "$param Have No Class.");
     }
 }
