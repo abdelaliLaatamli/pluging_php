@@ -2,5 +2,6 @@
   "type": "store",
   "name": "jsonloader",
   "namespace": "Plugins\\Jsonloader\\",
-  "classloader": "Plugins\\Jsonloader\\JsonStore"
+  "classloader": "Plugins\\Jsonloader\\JsonStore",
+  "descriptions" : "bbbb"
 }
