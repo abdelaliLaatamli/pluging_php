@@ -62,6 +62,27 @@ class FileHandlers {
 
     }
 
+
+    public function moveToPlugins( string $plugingTempPath , string $pluginsDir ) {
+
+        $plugins_dir = $pluginsDir . basename( $plugingTempPath ); 
+
+        if( file_exists( $plugins_dir ) ){
+            throw new Exception( "This Pluging is already exist $plugins_dir " );
+        }
+
+        $this->Move_Folder_To( $plugingTempPath , $plugins_dir);
+
+        return $plugins_dir;
+
+    }
+
+    private function Move_Folder_To($source, $target){
+        if( !is_dir($target) ) {
+            mkdir( dirname($target), 0777 ,true );
+        }
+        rename( $source,  $target);
+    }
     
 
 }

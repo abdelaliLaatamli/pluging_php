@@ -31,13 +31,16 @@ class PluginUploader {
 
     public function moveUpload(){
 
+        // validate zip file and extraire file in temporary path , return string temporary path 
+        $plugingTempPath = $this->fileHandler->fileChecker( $this->file , $this->upload_dir );
+        
+        // validate pluging contnet
+        $this->loadHandler->validatePlugin( $plugingTempPath );
 
-        $extPath = $this->fileHandler->fileChecker( $this->file , $this->upload_dir );
+        // move to plugin dir
+        $plugins_dir = $this->fileHandler->moveToPlugins( $plugingTempPath , $this->plugins_dir );
         
-        $this->validatePlugin( $extPath );
-        $plugins_dir = $this->moveToPlugins($extPath);
-        
-        $file_info = $this->getInfoFile( $plugins_dir );
+        // $file_info = $this->getInfoFile( $plugins_dir );
 
         $this->addToPluginManagerFile( $file_info );
 
@@ -47,57 +50,8 @@ class PluginUploader {
     }
 
 
-    private function validatePlugin( $extPath ):void {
-
-        if( !file_exists( $extPath."/info.json" ) ){
-            throw new Exception( "File not found info.json inside plugin");
-        }
-
-        $infoFile   = file_get_contents( $extPath."/info.json" );
-
-        $decoded_file = json_decode( $infoFile , true);
-
-        // return true;
-        // TODO: Validation config pluging file
-
-        // if( isset $decoded_file )
-
-    }
-
-    private function getInfoFile( $extPath ) {
-        $infoFile               = file_get_contents( $extPath."/info.json" );
-        $decoded_file           = json_decode( $infoFile , true);
-        $decoded_file["status"] = "enable";
-        return $decoded_file ;
-    }
 
 
-    private function moveToPlugins($extPath) {
-
-        $extPath__ = explode("/",$extPath) ;
-        $plugins_dir = $this->plugins_dir . $extPath__[count($extPath__)-1]; 
-        $this->Move_Folder_To( $extPath, $plugins_dir);
-        return $plugins_dir;
-
-    }
-
-    private function Move_Folder_To($source, $target){
-        if( !is_dir($target) ) mkdir( dirname($target), 0777 ,true );
-        rename( $source,  $target);
-    }
-
-    private function addToPluginManagerFile( $infoPlugin ){
-
-        $pluginManager = file_get_contents(  $this->pluginCoreDir."/loader.json" );
-        $decoded       = json_decode( $pluginManager , true );
-
-        $decoded["plugins"][] = $infoPlugin ;
-
-        file_put_contents( 
-            $this->pluginCoreDir."/loader.json" ,
-            json_encode(  $decoded , true)
-        ); 
-    }
 
 
 }
