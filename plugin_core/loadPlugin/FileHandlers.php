@@ -9,7 +9,7 @@ class FileHandlers {
 
 
 
-    public  function fileChecker( $uploadFile , $uploadDir )
+    public  function pluginChecker( $uploadFile , $uploadDir )
     {
 
         $uploadedZipFile = $this->moveUploadedFileToUploads( $uploadFile , $uploadDir );
@@ -24,12 +24,13 @@ class FileHandlers {
         $basename = basename( $uploadFile["name"] );
         $uploadedZipFile = $uploadDir  . $basename;
 
-        // TODO: check if file is zip file
-
         if( $uploadFile["type"] !== "application/x-zip-compressed" ){
            throw new Exception("Type Must be Zip  $uploadedZipFile");
         }
-
+    
+        if( file_exists( $uploadedZipFile ) ){
+            throw new Exception("This pluging is already exist");
+        }
 
         if ( !move_uploaded_file( $uploadFile["tmp_name"] , $uploadedZipFile ) ) {
             throw new Exception( "Sorry, there was an error uploading your file." );

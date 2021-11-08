@@ -70,7 +70,7 @@ class Loader {
         $pluginManagerFilePath = __DIR__."/loader.json";
 
         if ( !file_exists($pluginManagerFilePath) ) {
-            Throw new Exception("Loader File Not Exist");
+            throw new Exception("Loader File Not Exist");
         } 
 
         $fileContent = file_get_contents($pluginManagerFilePath);

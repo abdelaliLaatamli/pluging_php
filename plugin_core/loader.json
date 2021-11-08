@@ -5,6 +5,7 @@
             "name": "jsonloader",
             "namespace": "Plugins\\Jsonloader\\",
             "classloader": "Plugins\\Jsonloader\\JsonStore",
+            "descriptions": "bbbb",
             "status": "enable"
         },
         {

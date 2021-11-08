@@ -33,7 +33,7 @@ class PluginUploader {
 
 
         // // validate zip file and extraire file in temporary path , return string temporary path 
-        $plugingTempPath = $this->fileHandler->fileChecker( $this->file , $this->upload_dir );
+        $plugingTempPath = $this->fileHandler->pluginChecker( $this->file , $this->upload_dir );
         
         // // validate pluging contnet
         $this->loadHandler->validatePlugin( $plugingTempPath );
@@ -43,8 +43,7 @@ class PluginUploader {
         
 
         return $this->loadHandler->addToPluginManagerFile( $plugins_dir , $this->pluginCoreDir );
-
-        // print_r( $file_info );
+        
 
         return $plugins_dir ;
     }
