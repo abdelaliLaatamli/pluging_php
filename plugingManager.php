@@ -49,6 +49,37 @@ use Core\Pluging\Loader\PluginUploader;
                 $response           = [ "completed" => true , "data" => $decodedContent  , "error" => null ];
                 break;
 
+            case "toggle_plugin":
+
+                $plugingManagerfile = __DIR__."/plugin_core/loader.json";
+
+                $current_status = $_POST["current_status"] ;
+                $plugin_name    = $_POST["plugin_name"] ;
+
+                $status         = ( $current_status === "enable" ) ? "disable" : "enable" ;
+    
+                $fileContent    = file_get_contents( $plugingManagerfile );
+
+                $decodedContent = json_decode( $fileContent , true );
+
+                $newContent     = array_map( function( $item ) use ( $status , $plugin_name ) { 
+
+                    if( $item["name"] == $plugin_name ){
+                        $item["status"] = $status ;
+                    }
+
+                    return $item;
+
+                } , $decodedContent["plugins"] );
+
+                $decodedContent["plugins"] = $newContent;
+
+                file_put_contents( $plugingManagerfile , json_encode( $decodedContent ) );
+
+                $response = [ "completed" => true , "data" => $decodedContent , "error" => null ];
+
+                break;
+
 
             default: 
                 $response = [ "completed" => false , "data" => []  , "error" => "this rout not exist" ];

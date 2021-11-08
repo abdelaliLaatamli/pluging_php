@@ -9,15 +9,20 @@ class Loader {
 
     private $rootPath ;
 
+    public static $loader;
+
     public static $loadedPluging = [];
 
     public function __construct( $rootPath = __DIR__ )
     { 
         $this->rootPath = $rootPath ;
+        static::$loader = new ClassLoader();
     }
 
 
     public function pluginsLoader(): void {
+
+        static::$loader->unregister();
 
         $pluginsFile = $this->filePluginManager();
 
@@ -41,26 +46,29 @@ class Loader {
                 Throw new Exception("Pluging {$pluging['name']} Implementation Not Exist");  
             } 
 
-            $this->loadPlugin( $plugingPath  , $pluging["namespace"] );
+            if( $pluging["status"] === "enable" ){
+                $this->loadPlugin( $plugingPath  , $pluging["namespace"] );
 
-            static::$loadedPluging[$pluging["name"]] = $pluging;
+                static::$loadedPluging[$pluging["name"]] = $pluging;
+            }
+ 
 
         }
 
     }
 
+    
     private function loadPlugin( $namespace , $plugingPath ){
         
-        $loader = new ClassLoader();
-         
         // register classes with namespaces
-        $loader->add( $namespace ,  $plugingPath );
+        static::$loader->add( $namespace ,  $plugingPath );
 
         // activate the autoloader
-        $loader->register();
+        static::$loader->register();
      
        // to enable searching the include path (eg. for PEAR packages)
-        $loader->setUseIncludePath(true);
+        static::$loader->setUseIncludePath(true);
+
     }
 
 

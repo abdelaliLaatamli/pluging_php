@@ -94,12 +94,16 @@
 
             $.each( plugins , ( k , v ) => {
 
+                const btn_action = ( v.status === 'enable' ) ?
+                    `<button class="btn btn-sm btn-danger"  data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > disable </button>` :
+                    `<button class="btn btn-sm btn-success" data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > enable </button>`;
+
                 $('#table-plugins > tbody').append(
                     `<tr>
                         <th scope="row">${v.name}</th>
                         <td>${v.type}  </td>
                         <td>${v.status}</td>
-                        <td>${v.status}</td>
+                        <td>${btn_action}</td>
                     </tr>
                     `
                 );
@@ -107,6 +111,23 @@
             } );
         }
 
+        function toggleOption(elem){
+
+            const { info , status } = elem.dataset;
+
+            const request = {
+                operation      : "toggle_plugin" ,
+                plugin_name    : info            , 
+                current_status : status
+            }
+
+            $.post( backend , request , (data) => {
+
+                console.log( data )
+                loadPlugins();
+
+            })
+        }
 
     </script>
 
