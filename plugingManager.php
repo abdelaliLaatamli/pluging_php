@@ -9,7 +9,6 @@ use Core\Pluging\Loader\PluginUploader;
 
     if( isset( $_POST["isFile"] ) && !empty($_POST["isFile"]) ){
 
-        // var_dump( [ $_POST , $_FILES ] );
 
         $pluginUploader = new PluginUploader( 
             $_FILES["plugin"] ,
@@ -18,12 +17,8 @@ use Core\Pluging\Loader\PluginUploader;
             __DIR__."/plugin_core" 
         );
 
-        // $target_dir = __DIR__."/uploads/";
-
         if( isset($_FILES["plugin"]) && !empty($_FILES["plugin"]) ) {
 
-
-            // TODO: File Validation
             $pluginUploader->moveUpload() ;
 
         }

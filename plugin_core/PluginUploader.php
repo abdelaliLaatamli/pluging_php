@@ -2,6 +2,8 @@
 
 namespace Core\Pluging\Loader;
 
+use Core\Pluging\Loader\LoadPlugin\FileHandlers;
+use Core\Pluging\Loader\LoadPlugin\LoadingHandlers;
 use Exception;
 use ZipArchive;
 
@@ -12,18 +14,26 @@ class PluginUploader {
     private $plugins_dir;
     private $pluginCoreDir;
 
+
+    private $fileHandler ;
+    private $loadHandler ;
+
     public function __construct( $file , $upload_dir , $plugins_dir , $pluginCoreDir )
     {
         $this->file          = $file ;
         $this->upload_dir    = $upload_dir ;
         $this->plugins_dir   = $plugins_dir ;
         $this->pluginCoreDir = $pluginCoreDir ;
+
+        $this->fileHandler  = new FileHandlers();
+        $this->loadHandler  = new LoadingHandlers();
     }
 
-    public function moveUpload(  ){
+    public function moveUpload(){
 
 
-        $extPath = $this->fileChecker();
+        $extPath = $this->fileHandler->fileChecker( $this->file , $this->upload_dir );
+        
         $this->validatePlugin( $extPath );
         $plugins_dir = $this->moveToPlugins($extPath);
         
@@ -40,7 +50,7 @@ class PluginUploader {
     private function validatePlugin( $extPath ):void {
 
         if( !file_exists( $extPath."/info.json" ) ){
-            throw new \Exception( "File not found info.json inside plugin");
+            throw new Exception( "File not found info.json inside plugin");
         }
 
         $infoFile   = file_get_contents( $extPath."/info.json" );
@@ -62,44 +72,18 @@ class PluginUploader {
     }
 
 
-
-    private function fileChecker(){
-
-        $basename = basename($this->file["name"]);
-        $target_file = $this->upload_dir  . $basename;
-
-        if ( !move_uploaded_file( $this->file["tmp_name"] , $target_file ) ) {
-            throw new \Exception( "Sorry, there was an error uploading your file." );
-        }
-        
-        $zip=new ZipArchive;
-
-        $zipFile=$zip->open( $target_file );
-
-
-        if ($zipFile !== true){
-            throw new \Exception( "Echec de l'extraction du fichier {$zipFile}");
-        }
-            
-        $zip->extractTo( $this->upload_dir  );
-        $zip->close();
-
-        $extPath = $this->upload_dir . explode(".",  $basename)[0] ;
-
-        if( !file_exists( $extPath  ) ){
-            throw new \Exception( "File not found ");
-        }
-        return $extPath;
-
-    }
-
     private function moveToPlugins($extPath) {
 
         $extPath__ = explode("/",$extPath) ;
         $plugins_dir = $this->plugins_dir . $extPath__[count($extPath__)-1]; 
-        shell_exec("mv $extPath $plugins_dir");
+        $this->Move_Folder_To( $extPath, $plugins_dir);
         return $plugins_dir;
 
+    }
+
+    private function Move_Folder_To($source, $target){
+        if( !is_dir($target) ) mkdir( dirname($target), 0777 ,true );
+        rename( $source,  $target);
     }
 
     private function addToPluginManagerFile( $infoPlugin ){
