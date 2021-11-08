@@ -26,21 +26,23 @@ class LoadingHandlers {
         // check if already in loader.json  
 
     }
+    
 
-
-    private function addToPluginManagerFile( $pluginsDir , $pluginCoreDir){
-
+    public function addToPluginManagerFile( $pluginsDir , $pluginCoreDir ){
+        // return [ $pluginsDir , $pluginCoreDir ];
         $infoPlugin = $this->getInfoFile( $pluginsDir );
 
-        $pluginManager = file_get_contents(  $pluginCoreDir."/loader.json" );
+        $pluginManager = file_get_contents( $pluginCoreDir."/loader.json" );
         $decoded       = json_decode( $pluginManager , true );
 
         $decoded["plugins"][] = $infoPlugin ;
 
         file_put_contents( 
-            $this->pluginCoreDir."/loader.json" ,
+            $pluginCoreDir."/loader.json" ,
             json_encode(  $decoded , true)
         ); 
+
+        return $pluginManager ;
     }
 
     private function getInfoFile( $extPath ) {

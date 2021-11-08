@@ -36,7 +36,7 @@ use  Core\Pluging\Loader\MainFactory;
 
 $factory = new MainFactory();
 
-$path = __DIR__."/tests.json";
+$path = __DIR__."/test.json";
 
 $store = $factory->makeObjects( "jsonloader" , "default" , "jsonconsumer" ) ;
 $data = $store

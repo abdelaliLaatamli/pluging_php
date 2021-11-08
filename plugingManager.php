@@ -19,7 +19,10 @@ use Core\Pluging\Loader\PluginUploader;
 
         if( isset($_FILES["plugin"]) && !empty($_FILES["plugin"]) ) {
 
-            $pluginUploader->moveUpload() ;
+            $t = $pluginUploader->moveUpload() ;
+            // echo "<pre>";
+            // var_dump( $t );
+            // echo "</pre>";
 
         }
 

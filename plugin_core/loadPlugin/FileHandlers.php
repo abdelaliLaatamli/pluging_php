@@ -14,7 +14,7 @@ class FileHandlers {
 
         $uploadedZipFile = $this->moveUploadedFileToUploads( $uploadFile , $uploadDir );
 
-        return $this->extractZipFile(  $uploadedZipFile , $uploadDir );
+        return $this->extractZipFile( $uploadedZipFile , $uploadDir );
 
     }
 

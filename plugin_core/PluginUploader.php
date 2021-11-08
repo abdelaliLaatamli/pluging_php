@@ -31,18 +31,18 @@ class PluginUploader {
 
     public function moveUpload(){
 
-        // validate zip file and extraire file in temporary path , return string temporary path 
+
+        // // validate zip file and extraire file in temporary path , return string temporary path 
         $plugingTempPath = $this->fileHandler->fileChecker( $this->file , $this->upload_dir );
         
-        // validate pluging contnet
+        // // validate pluging contnet
         $this->loadHandler->validatePlugin( $plugingTempPath );
 
-        // move to plugin dir
+        // // move to plugin dir
         $plugins_dir = $this->fileHandler->moveToPlugins( $plugingTempPath , $this->plugins_dir );
         
-        // $file_info = $this->getInfoFile( $plugins_dir );
 
-        $this->addToPluginManagerFile( $file_info );
+        return $this->loadHandler->addToPluginManagerFile( $plugins_dir , $this->pluginCoreDir );
 
         // print_r( $file_info );
 
