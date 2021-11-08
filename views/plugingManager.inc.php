@@ -94,16 +94,18 @@
 
             $.each( plugins , ( k , v ) => {
 
-                const btn_action = ( v.status === 'enable' ) ?
-                    `<button class="btn btn-sm btn-danger"  data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > disable </button>` :
-                    `<button class="btn btn-sm btn-success" data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > enable </button>`;
+                const btn_toggle = ( v.status === 'enable' ) ?
+                    `<button class="btn btn-sm btn-warning"  data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > Disable </button>` :
+                    `<button class="btn btn-sm btn-success" data-info="${v.name}" data-status="${v.status}" onclick="toggleOption(this)" > Enable </button>`;
+                
+                const btn_delete =  `<button class="btn btn-sm btn-danger" data-info="${v.name}" onclick="deleteOption(this)" > Delete </button>` ;
 
                 $('#table-plugins > tbody').append(
                     `<tr>
                         <th scope="row">${v.name}</th>
                         <td>${v.type}  </td>
                         <td>${v.status}</td>
-                        <td>${btn_action}</td>
+                        <td>${btn_toggle} ${btn_delete} </td>
                     </tr>
                     `
                 );
@@ -119,6 +121,23 @@
                 operation      : "toggle_plugin" ,
                 plugin_name    : info            , 
                 current_status : status
+            }
+
+            $.post( backend , request , (data) => {
+
+                console.log( data )
+                loadPlugins();
+
+            })
+        }
+
+        function deleteOption(elem){
+
+            const { info } = elem.dataset;
+
+            const request = {
+                operation      : "delete_plugin" ,
+                plugin_name    : info            
             }
 
             $.post( backend , request , (data) => {

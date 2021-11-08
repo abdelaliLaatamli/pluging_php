@@ -81,6 +81,33 @@ use Core\Pluging\Loader\PluginUploader;
                 break;
 
 
+            case "delete_plugin":
+
+                $plugingManagerfile = __DIR__."/plugin_core/loader.json";
+    
+                $plugin_name    = $_POST["plugin_name"] ;
+    
+        
+                $fileContent    = file_get_contents( $plugingManagerfile );
+    
+                $decodedContent = json_decode( $fileContent , true );
+
+                $newContent     = array_filter( $decodedContent["plugins"] , function ( $item ) use ( $plugin_name ) {
+                    return $item["name"] != $plugin_name;
+                });
+    
+    
+                $decodedContent["plugins"] = $newContent;
+    
+                file_put_contents( $plugingManagerfile , json_encode( $decodedContent ) );
+
+                // TODO: remove pluging from loading 
+    
+                $response = [ "completed" => true , "data" => $decodedContent , "error" => null ];
+    
+                break;
+
+
             default: 
                 $response = [ "completed" => false , "data" => []  , "error" => "this rout not exist" ];
                 break;
