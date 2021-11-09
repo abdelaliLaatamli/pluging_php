@@ -60,5 +60,22 @@ class LoadingHandlers {
         return $decoded_file ;
     }
 
+    public function removePluginFromLoaderFile( $plugin_name , $pluginCoreDir ) {
+
+        $fileContent    = file_get_contents( $pluginCoreDir . "/loader.json" );
+    
+        $decodedContent = json_decode( $fileContent , true );
+
+        $newContent     = array_filter( $decodedContent["plugins"] , function ( $item ) use ( $plugin_name ) {
+            return $item["name"] != $plugin_name;
+        });
+
+
+        $decodedContent["plugins"] = $newContent;
+
+        file_put_contents( $pluginCoreDir . "/loader.json"  , json_encode( $decodedContent ) );
+
+    }
+
 
 }

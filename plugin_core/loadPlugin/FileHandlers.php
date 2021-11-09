@@ -2,6 +2,7 @@
 
 namespace Core\Pluging\Loader\LoadPlugin;
 
+use Error;
 use Exception;
 use ZipArchive;
 
@@ -64,6 +65,23 @@ class FileHandlers {
     }
 
 
+    public function movePluginZipToBkp( $fileToUpload , $uploadDir , $pkpPluginsDir ){
+
+        $basename = basename( $fileToUpload["name"] );
+          
+        /* Store the path of source file */
+        $filePath = $uploadDir . $basename;
+        
+        /* Store the path of destination file */
+        $destinationFilePath = $pkpPluginsDir.$basename;
+        
+        /* Move File from images to copyImages folder */
+        if( !rename($filePath, $destinationFilePath) ) {  
+            throw new Exception( "Can't Move plugin file $filePath" );
+        }  
+     
+    }
+
     public function moveToPlugins( string $plugingTempPath , string $pluginsDir ) {
 
         $plugins_dir = $pluginsDir . basename( $plugingTempPath ); 
@@ -85,5 +103,33 @@ class FileHandlers {
         rename( $source,  $target);
     }
     
+
+
+    public function removePlugin( $plugin_name , $pluginsDir ){
+
+
+        $plugins_dir = $pluginsDir .$plugin_name ; 
+
+        if( !file_exists( $plugins_dir ) ){
+            throw new Exception( "This Pluging Not found $plugins_dir " );
+        }
+
+        $this->RemovePluginFromPluginsDir( $plugin_name , $pluginsDir );
+
+    }
+
+
+    private function RemovePluginFromPluginsDir(  $plugin_name , $pluginsDir ){
+
+        $plugins_dir = $pluginsDir .$plugin_name ; 
+
+        array_map('unlink', glob("$plugins_dir/*.*"));
+
+        rmdir($plugins_dir);
+
+        if( file_exists( $plugins_dir ) ){
+            throw new Exception( "Can't Delete plugin $plugin_name " );
+        }
+    }
 
 }
