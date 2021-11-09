@@ -29,6 +29,8 @@ class PluginUploader {
 
     public function addPlugin( $fileToUpload ){
 
+        // TODO: Check if any exception remove files from uplods and plugins dirs 
+
 
         // validate zip file and extraire file in temporary path , return string temporary path 
         $plugingTempPath = $this->fileHandler->pluginChecker( $fileToUpload , $this->uploadDir );

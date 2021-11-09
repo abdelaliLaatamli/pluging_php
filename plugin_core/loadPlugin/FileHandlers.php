@@ -73,7 +73,7 @@ class FileHandlers {
         $filePath = $uploadDir . $basename;
         
         /* Store the path of destination file */
-        $destinationFilePath = $pkpPluginsDir.$basename;
+        $destinationFilePath = $pkpPluginsDir.time()."_".$basename;
         
         /* Move File from images to copyImages folder */
         if( !rename($filePath, $destinationFilePath) ) {  
