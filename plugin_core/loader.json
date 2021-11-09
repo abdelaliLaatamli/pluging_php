@@ -14,7 +14,7 @@
       "namespace": "Plugins\\Jsonconsumer\\",
       "classloader": "Plugins\\Jsonconsumer\\JsonConsumer",
       "descriptions": "aaaaa",
-      "status": "enable"
+      "status": "disable"
     }
   ]
 }

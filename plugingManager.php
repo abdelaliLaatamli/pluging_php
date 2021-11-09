@@ -4,7 +4,14 @@
 
 require 'vendor/autoload.php';
 
+use Core\Pluging\Loader\Loader;
+use Core\Pluging\Loader\MainFactory;
 use Core\Pluging\Loader\PluginUploader;
+
+
+$loader = new Loader( __DIR__ );
+
+$loader->pluginsLoader();
 
  
 // $request = new Request($_SERVER);
@@ -120,7 +127,36 @@ $pluginUploader = new PluginUploader(
     
                 break;
 
+            case "start_prosses":
 
+                $consumer  = $_POST["consumer"];
+                $prosses   = $_POST["prosses"];
+                $store     = $_POST["store"];
+
+                $factory = new MainFactory();
+
+                $storeMade = $factory->makeObjects(  $store  ,  $prosses  , $consumer );
+  
+
+                switch( $store ){
+                    case "default":
+                        $storeData = ["aaa" , "bbb" , "ccc" , "adbs" , "abcds" , "ananas" , "ops", "ddddd"];
+                        break;
+
+                    case "jsonloader":
+                        $storeData =  __DIR__."/test.json";
+                        break;
+                }
+                $data = $storeMade 
+                            ->setData($storeData)
+                            ->convert( function ( $item ) { return $item . " test" ; } )
+                            ->clean( function ( $item ) { return substr( $item , 0, 1 ) === "a" ;} )
+                            ->analyze( function ( $data ) { return array_slice($data, 0 , 3); } )
+                            ->prosses()
+                            ->consume();
+
+                $response = [ "completed" => true , "data" => $data , "error" => null ];
+                break;
             default: 
                 $response = [ "completed" => false , "data" => []  , "error" => "this rout not exist" ];
                 break;
