@@ -17,22 +17,35 @@
 
      
             <div class="col-3 mb-3"> 
+
                 <label for="exampleFormControlInput1" class="form-label">Store</label>
-                <select class="form-select form-select-sm" id="selectStore" aria-label="Default select example">
+                <select class="form-select form-select-sm" id="selectStore" name="store">
                     <option selected value="default" >Default</option>
                 </select>
+
+                <label for="exampleFormControlInput1" class="form-label">Data</label>
+
+                <div class="data-container">
+
+                    <textarea class="form-control" rows="10" id="dataStore"></textarea>
+
+                </div>
+
+           
+
+
             </div>
 
             <div class="col-3 mb-3"> 
                 <label for="exampleFormControlInput1" class="form-label">Prosses</label>
-                <select class="form-select form-select-sm" id="selectProsses" aria-label="Default select example">
+                <select class="form-select form-select-sm" id="selectProsses"  name="prosses">
                     <option selected value="default" >Default</option>
                 </select>
             </div>
 
             <div class="col-3 mb-3"> 
                 <label for="exampleFormControlInput1" class="form-label">Consume</label>
-                <select class="form-select form-select-sm" id="selectConsume" aria-label="Default select example">
+                <select class="form-select form-select-sm" id="selectConsume" name="consume">
                     <option selected value="default" >Default</option>
                 </select>
             </div>
@@ -95,18 +108,51 @@
 
             const request = {
 
-                "operation" : "start_prosses" ,
+                operation : "start_prosses" ,
                 "store"     : $("#selectStore").val() ,
                 "prosses"   : $("#selectProsses").val() ,
                 "consumer"  : $("#selectConsume").val()
             }
 
+            console.log( request )
+
+            const data = document.querySelector("#dataStore").value;
+
+            let storeData = "";
+
+            switch( $("#selectStore").val() ){
+
+                case "jsonloader" : storeData = data; break ;
+
+                default : storeData = data.split('\n').filter(e => e); break ;
+            }
+            request["storeData"] = storeData;
+            console.log( storeData )
+
+            // console.log( dataStore )
             $.post( backend , request , (data) => {
                 console.log( data )
             } )
 
 
         }
+
+        $("#selectStore").change( function(){
+
+            switch( $(this).val() ){
+                case "jsonloader" : 
+                    $(".data-container").empty();
+                    $(".data-container").append(`<input type="text" class="form-control" id="dataStore"></input>`);
+                    break ;
+
+                default : 
+                    $(".data-container").empty()
+                    $(".data-container").append(`<textarea class="form-control" rows="10" id="dataStore"></textarea>`);
+                    
+                break 
+            }
+
+        })
 
     </script>
 
