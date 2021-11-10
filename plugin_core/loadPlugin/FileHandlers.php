@@ -130,9 +130,6 @@ class FileHandlers {
             throw new Exception( "Can't Delete plugin $plugin_name " );
         }
 
-
-
-        
     }
 
 }
