@@ -129,6 +129,10 @@ class FileHandlers {
         if( file_exists( $plugins_dir ) ){
             throw new Exception( "Can't Delete plugin $plugin_name " );
         }
+
+
+
+        
     }
 
 }
