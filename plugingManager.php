@@ -131,22 +131,14 @@ $pluginUploader = new PluginUploader(
 
                 $consumer  = $_POST["consumer"];
                 $prosses   = $_POST["prosses"];
-                $store     = $_POST["store"];
+                $store         = $_POST["store"]["type"];
+                $storeData     = $_POST["store"]["dataStore"];
 
                 $factory = new MainFactory();
 
                 $storeMade = $factory->makeObjects(  $store  ,  $prosses  , $consumer );
   
 
-                switch( $store ){
-                    case "default":
-                        $storeData = ["aaa" , "bbb" , "ccc" , "adbs" , "abcds" , "ananas" , "ops", "ddddd"];
-                        break;
-
-                    case "jsonloader":
-                        $storeData =  __DIR__."/test.json";
-                        break;
-                }
                 $data = $storeMade 
                             ->setData($storeData)
                             ->convert( function ( $item ) { return $item . " test" ; } )

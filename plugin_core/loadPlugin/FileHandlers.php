@@ -2,7 +2,6 @@
 
 namespace Core\Pluging\Loader\LoadPlugin;
 
-use Error;
 use Exception;
 use ZipArchive;
 

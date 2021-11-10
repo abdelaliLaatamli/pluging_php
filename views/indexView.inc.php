@@ -27,7 +27,15 @@
 
                 <div class="data-container">
 
-                    <textarea class="form-control" rows="10" id="dataStore"></textarea>
+                    <textarea class="form-control" rows="10" id="dataStore">aaa
+bbb
+ccc
+adbs
+abcds
+ananas
+ops
+ddddd
+</textarea>
 
                 </div>
 
@@ -54,6 +62,14 @@
                 <button class="btn btn-sm btn-primary" onclick="startProsses()" > Start Prosses </button>
             </div>
 
+
+        </div>
+
+        <div  class="row mt-4" >
+
+            <div class="col-12" id="resultat">
+
+            </div>
 
         </div>
 
@@ -109,9 +125,12 @@
             const request = {
 
                 operation : "start_prosses" ,
-                "store"     : $("#selectStore").val() ,
-                "prosses"   : $("#selectProsses").val() ,
-                "consumer"  : $("#selectConsume").val()
+                store     : { 
+                   type : $("#selectStore").val() ,
+                   dataStore : ""
+                } ,
+                prosses   : $("#selectProsses").val() ,
+                consumer  : $("#selectConsume").val()
             }
 
             console.log( request )
@@ -126,12 +145,17 @@
 
                 default : storeData = data.split('\n').filter(e => e); break ;
             }
-            request["storeData"] = storeData;
-            console.log( storeData )
+            request.store.dataStore = storeData;
+            console.log( request )
 
             // console.log( dataStore )
             $.post( backend , request , (data) => {
                 console.log( data )
+
+                $("#resultat").empty()
+                $("#resultat").append( JSON.stringify(data.data ))
+
+
             } )
 
 
@@ -142,12 +166,13 @@
             switch( $(this).val() ){
                 case "jsonloader" : 
                     $(".data-container").empty();
-                    $(".data-container").append(`<input type="text" class="form-control" id="dataStore"></input>`);
+                    $(".data-container").append(`<input type="text" class="form-control form-control-sm" id="dataStore" value="/var/www/html/Projects/php_pipline/test.json"></input>`);
                     break ;
 
                 default : 
                     $(".data-container").empty()
-                    $(".data-container").append(`<textarea class="form-control" rows="10" id="dataStore"></textarea>`);
+                    $(".data-container").append(`<textarea class="form-control form-control-sm" rows="10" id="dataStore"
+                            >aaa\nbbb\nccc\nadbs\nabcds\nananas\nops\nddddd</textarea>`);
                     
                 break 
             }
